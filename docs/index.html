@@ -179,6 +179,12 @@
     }
 
 
+    .flashContainer {
+      position: absolute;
+      overflow: hidden;
+      width: 100vw;
+      left: 0;
+    }
     .flash {
       background: linear-gradient(
         -60deg,
@@ -192,10 +198,8 @@
       width: 100px;
       height: 120px;
       display: inline-block;
-
-      position: absolute;
       animation: flash 10s cubic-bezier(0.04, 0.37, 0.3, 0.92) infinite;
-      /*border: 1px solid;*/
+      position: relative;
     }
 
     .confirm {
@@ -258,17 +262,11 @@
         left: -100%;
       }
 
-      45% {
+      75% {
         left: 100%;
-        width: 100px;
-      }
-
-      45.1% {
-        width: 0;
       }
 
       100% {
-        width: 0;
         left: 100%;
       }
     }
@@ -294,7 +292,7 @@
         <div>
           <h1>
             <div>
-              <div class="flash"></div>
+              <div class="flashContainer"><div class="flash"></div></div>
               Imagine Coin
             </div>
           </h1>
