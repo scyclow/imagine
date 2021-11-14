@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Imagine Coin</title>
+
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="HandheldFriendly" content="true">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta id="header-theme" name="theme-color" content="#ffffff">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Roboto+Slab:wght@200&display=swap" rel="stylesheet">
+
+
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+      color: #3c3c3c;
+      font-family: 'Poiret One', sans-serif;
+    }
+
+    p, label, label span, dd, dd a {
+      font-family: 'Roboto Slab', serif;
+    }
+
+    main {
+      margin-bottom: 5em;
+    }
+
+    body {
+      background: #fdfdfd;
+    }
+
+    h1, h2 {
+      text-align: center;
+      padding: 0 0.4em;
+    }
+
+    h1 {
+      font-size: 6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h2 {
+      margin-top: 0.5em;
+      font-size: 2em;
+    }
+
+    label {
+      display: block;
+    }
+
+    p {
+      max-width: 750px;
+      margin: auto;
+      line-height: 1.6;
+      font-size: 1.3em;
+      padding: 1em;
+      padding-bottom: 0;
+    }
+
+    section {
+      margin-bottom: 3.5em;
+    }
+
+    button {
+      border: 2px solid #e10be3;
+      border-radius: 10px;
+      cursor: pointer;
+      padding: 0.75em;
+      transition: 300ms;
+      font-size: 2em;
+      color: #fefefe;
+      background-color: #e10be3;
+    }
+
+    button:hover {
+      opacity: 0.5;
+    }
+
+    input {
+      text-align: center;
+    }
+
+    input[type=number] {
+      font-size: 1.1em;
+      border-radius: 2px;
+      width: 100px;
+      color: #e10be3;
+      background: #f4fffd;
+      -moz-appearance: textfield;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+
+    dl {
+      padding: 1em;
+      margin: auto;
+      max-width: 750px;
+    }
+    dt, dd {
+      font-size: 1.3em;
+      display: block;
+      margin: auto;
+    }
+
+    dt {
+      margin-top: 0.75em;
+    }
+
+    dd {
+      padding: 0.5em;
+      word-break: break-all;
+      text-align: center;
+    }
+
+    footer {
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    footer > * {
+      padding: 0.25em;
+    }
+
+    a {
+      color: #e10be3;
+      transition: 200ms;
+    }
+
+    a:hover {
+      opacity: 0.5;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 70vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    .subhero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 30vh;
+      flex-direction: column;
+    }
+
+    .down-arrow {
+      transform: rotate(180deg);
+      font-size: 6em;
+      opacity: 0;
+      animation: fadeInOut 4s ease-in-out infinite;
+      height: 10vh;
+      line-height: 2;
+
+    }
+
+    .center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+
+
+    .flash {
+      background: linear-gradient(
+        -60deg,
+        rgba(254,254,254,0) 0%,
+        rgba(254,254,254,0) 20%,
+        rgba(254,254,254,0.8) 45%,
+        rgba(254,254,254,0.8) 55%,
+        rgba(254,254,254,0) 80%,
+        rgba(254,254,254,0) 100%
+      );
+      width: 100px;
+      height: 120px;
+      display: inline-block;
+
+      position: absolute;
+      animation: flash 10s cubic-bezier(0.04, 0.37, 0.3, 0.92) infinite;
+      /*border: 1px solid;*/
+    }
+
+    .confirm {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      max-width: 400px;
+      margin-bottom: 2em;
+      padding: 0.5em;
+      font-size: 1.1em;
+    }
+
+    .accent {
+      color: #e10be3;
+    }
+    .fadein {
+      animation: fadein 2s;
+    }
+
+    #purchaseForm {
+      position: absolute;
+      width: 300px;
+      height: 15em;
+      margin-bottom: -10.5em;
+      border-radius: 5px;
+      border: 1px solid #e10be3;
+      transition: 1500ms;
+    }
+
+    .purchaseInactive {
+      background: #adf7e9;
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .purchaseActive {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes fadeInOut {
+      0%    { opacity: 0; }
+      25%   { opacity: 1; }
+      70%   { opacity: 0; }
+      100%  { opacity: 0; }
+    }
+
+
+    @keyframes flash {
+      0% {
+        left: -100%;
+      }
+
+      15% {
+        left: -100%;
+      }
+
+      45% {
+        left: 100%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    @media (max-width: 612px) {
+      body {
+        font-size: 12px;
+      }
+
+
+    }
+    @media (max-width: 458px) {
+      .flash {
+        height: 160px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="fadein">
+    <section>
+      <div class="hero">
+        <div>
+          <h1>
+            <div>
+              <div class="flash"></div>
+              Imagine Coin
+            </div>
+          </h1>
+          <h2>A token backed by your <span class="accent">imagination</span></h2>
+        </div>
+      </div>
+      <div class="subhero">
+        <div class="down-arrow" style="animation-delay: 3s;">^</div>
+        <div class="down-arrow" style="animation-delay: 3.666s;">^</div>
+        <div class="down-arrow" style="animation-delay: 4.333s;">^</div>
+      </div>
+    </section>
+
+    <section></section>
+
+    <section>
+      <h2>The only limit is your imagination</span></h2>
+      <p>Imagine Coin can be whatever you want it to be. It can be a conceptual art piece, a meme coin, a radical anarchist social experiment. And while it might be difficult to exchainge Imagine Coin for reality-based coins, you are free to imagine a wild profit-making future for yourself.</p>
+    </section>
+    <section><h1 class="center accent">~</h1></section>
+
+    <section>
+      <h2><a href="./whitepaper" target="_blank">Read the Whitepaper</a></h2>
+    </section>
+    <section><h1 class="center accent">~</h1></section>
+
+    <section>
+      <h2>Gas efficient & not a security</h2>
+
+      <p>Utilizing recent advancements in Honor System Technology, Imagine Coin is able to achieve unparalleled gas efficiency while bypassing classification as a financial security. This is accomplished by avoiding tracking token balances on the block chain. The Imagine Coin contract implements the full ERC-20 interface and logs every event, so community members are free to imagine their own balances off chain.</p>
+    </section>
+    <section><h1 class="center accent">~</h1></section>
+
+    <section class="center">
+      <dl class="center" style="flex-direction: column; margin-bottom: 2em;">
+        <dt>Max Tokens</dt>
+        <dd>1,000,000</dd>
+        <dt>Price Per Token</dt>
+        <dd>0.001 ETH</dd>
+        <dt>Contract</dt>
+        <dd><a id="contractAddress" href="" target="_blank" rel="nofollow">-</a></dd>
+      </dl>
+    </section>
+    <section><h1 class="center accent">~</h1></section>
+
+
+
+    <section id="notConnectedSection" class="center" style="display: none;">
+      <h2 class="accent">Please visit this site with a web3-compatible browser</h2>
+    </section>
+
+    <section id="purchaseSection" class="center" style="display: none;">
+      <div id="walletNotConnected" style="display: none;">
+        <div class="center" >
+          <button id="connectWallet">Connect Wallet</button>
+        </div>
+      </div>
+
+      <div id="walletConnected" style="display: none;">
+        <div class="center" style="padding: 0.5em; max-width: 750px; flex-direction: column;">
+          <label class="confirm">
+            <input id="confirmRead" type="checkbox" style="cursor: pointer;">
+            <span style="padding-left: 1em;">I've read this entire web page and understand that all token data is stored in our collective imaginations, and nowhere else.</span>
+          </label>
+
+          <div id="purchaseForm" class="purchaseInactive"></div>
+
+          <label style="margin-top: 1em; margin-bottom: 0.5em; font-size: 1.2em;">TOKENS TO MINT</label>
+          <input id="tokensToMint" type="number" placeholder="1000" style="padding: 0.5em; border: 1px solid #e10be3;">
+          <button id="mintToken" style="margin-top: 1em;">Mint</button>
+        </div>
+      </div>
+
+      <h2 id="successText" class="accent" style="padding: 0.5em; display: none;">
+        <a href="" target="_blank" rel="nofollow" id="etherscanLink">View tx on etherscan.</a>
+      </h2>
+      <h2 id="errorMessage" class="accent" style="padding: 0.5em;"></h2>
+    </section>
+    <section><h1 class="center accent">~</h1></section>
+  </main>
+
+  <footer>
+    <div><a href="https://twitter.com/steviepxyz" target="_blank" rel="nofollow">twitter</a></div>
+    <div><a href="https://discord.gg/9uA8WBFpcB" target="_blank" rel="nofollow">discord</a></div>
+    <div><a href="./whitepaper" target="_blank">whitepaper</a></div>
+    <div><a href="https://steviep.xyz" target="_blank">steviep</a> (c) 2021</div>
+  </footer>
+</body>
+
+<script src="./min.ethers.js"></script>
+<script>
+
+  const $notConnectedSection = document.getElementById('notConnectedSection')
+  const $purchaseSection = document.getElementById('purchaseSection')
+  const $purchaseForm = document.getElementById('purchaseForm')
+  const $confirmRead = document.getElementById('confirmRead')
+  const $contractAddress = document.getElementById('contractAddress')
+  const $walletConnected = document.getElementById('walletConnected')
+  const $walletNotConnected = document.getElementById('walletNotConnected')
+  const $connectWallet = document.getElementById('connectWallet')
+  const $errorMessage = document.getElementById('errorMessage')
+  const $mintToken = document.getElementById('mintToken')
+  const $tokensToMint = document.getElementById('tokensToMint')
+  const $etherscanLink = document.getElementById('etherscanLink')
+  const $successText = document.getElementById('successText')
+
+
+  const LOCAL_HOST_CONTRACT_ADDR = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9'
+  const RINKEBY_CONTRACT_ADDR = ''
+  const MAINNET_CONTRACT_ADDR = ''
+
+
+  confirmRead.onclick = (event) =>
+    $purchaseForm.className = event.target.checked
+      ? 'purchaseActive'
+      : 'purchaseInactive'
+
+  ;(async () => {
+
+  const imagineCoinABI = [
+
+    'function mint(uint256 amount) public payable',
+
+  ]
+  let isEthBrowser
+
+  if (window.ethereum) {
+    console.log('web3')
+    window.provider = new ethers.providers.Web3Provider(window.ethereum, 'any')
+    window.signer = provider.getSigner()
+    isEthBrowser = true
+    $notConnectedSection.style.display = 'none'
+    $purchaseSection.style.display = 'initial'
+  } else {
+    console.log('no Web3 detected')
+    isEthBrowser = false
+    $notConnectedSection.style.display = 'initial'
+    $purchaseSection.style.display = 'none'
+    setUIContractAddress(MAINNET_CONTRACT_ADDR)
+    //  display web browser message instead of connect/purchase
+    return
+  }
+  const isConnected = async () => {
+    if (!isEthBrowser) return false
+
+    try {
+      return await signer.getAddress()
+    } catch (e) {
+      return false
+    }
+  }
+
+
+  const { chainId } = await provider.detectNetwork()
+
+  let IC_ADDRESS
+  switch (chainId) {
+    // local network
+    case 31337:
+      console.log(`Running on local network (${chainId})`)
+      IC_ADDRESS = LOCAL_HOST_CONTRACT_ADDR
+      break
+
+    // rinkeby
+    case 4:
+      console.log(`Running on rinkeby (${chainId})`)
+      IC_ADDRESS = RINKEBY_CONTRACT_ADDR
+      break
+
+    // mainnet
+    case 1:
+      console.log(`Running on mainnet (${chainId})`)
+      IC_ADDRESS = MAINNET_CONTRACT_ADDR
+      break
+  }
+
+  setUIContractAddress(IC_ADDRESS)
+
+  const ImagineCoinContract = new ethers.Contract(IC_ADDRESS, imagineCoinABI, provider)
+
+  const connectedWallet = await isConnected()
+  if (connectedWallet) {
+    console.log(`Wallet connected: ${connectedWallet}`)
+    onWalletConnected(connectedWallet)
+  } else {
+    $walletConnected.style.display = 'none'
+    $walletNotConnected.style.display = 'initial'
+  }
+
+
+  function onWalletConnected(wallet) {
+    $walletConnected.style.display = 'initial'
+    $walletNotConnected.style.display = 'none'
+
+    // show purchase button
+
+  }
+
+  function setUIContractAddress(address) {
+    $contractAddress.href = `https://etherscan.io/address/${address}`
+    $contractAddress.innerHTML = address
+  }
+
+  function displayError(msg) {
+    $errorMessage.innerHTML = msg
+  }
+
+  function setLoading(bool) {
+    if (bool) {
+      $mintToken.innerHTML = 'Loading...'
+      $mintToken.disabled = true
+      $mintToken.style.cursor = 'not-allowed'
+    } else {
+      $mintToken.innerHTML = 'Mint'
+      $mintToken.disabled = false
+      $mintToken.style.cursor = 'pointer'
+    }
+  }
+
+
+  $connectWallet.onclick = async () => {
+    $connectWallet.innerHTML = 'Connecting...'
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }, []);
+      const address = await isConnected()
+      onWalletConnected(address)
+
+    } catch (e) {
+      alert(`Error Connecting Wallet: ${e.message}`)
+      debugger
+      console.error(e)
+    }
+  }
+
+
+  $mintToken.onclick = async () => {
+    displayError('')
+    const mintPrice = '0.001'
+    const rawTokensToMint = Number($tokensToMint.value)
+    let tokensToMint, txValue
+    if (rawTokensToMint < 0.001) {
+      tokensToMint = String(rawTokensToMint * 10**18)
+      txValue = String(tokensToMint * Number(mintPrice))
+    } else {
+      tokensToMint = ethers.utils.parseEther($tokensToMint.value)
+      txValue = ethers.utils.parseEther(String(rawTokensToMint * Number(mintPrice)))
+    }
+
+    if (rawTokensToMint <= 0 || !tokensToMint) {
+      displayError('Please choose a positive number of tokens to mint.')
+      return
+    }
+    if (rawTokensToMint > 1000000) {
+      displayError('Cannot mint more than 1,000,000 tokens')
+      return
+    }
+
+    setLoading(true)
+
+
+    try {
+
+      const tx = await ImagineCoinContract.connect(signer).mint(
+        tokensToMint,
+        { value: txValue }
+      )
+      $etherscanLink.href = `https://etherscan.io/tx/${tx.hash}`
+
+      setTimeout(async () => {
+        $successText.style.display = null
+        setLoading(false)
+      }, 3000)
+    } catch (e) {
+      setLoading(false)
+      displayError(e.message)
+    }
+  }
+
+  })()
+
+</script>
+</html>

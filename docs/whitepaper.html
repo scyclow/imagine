@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Imagine Coin</title>
+
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="HandheldFriendly" content="true">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta id="header-theme" name="theme-color" content="#ffffff">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Roboto+Slab:wght@200&display=swap" rel="stylesheet">
+
+
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+      color: #3c3c3c;
+      font-family: 'Poiret One', sans-serif;
+    }
+
+    p, label, label span, li , li span{
+      font-family: 'Roboto Slab', serif;
+    }
+
+    main {
+      margin-bottom: 5em;
+    }
+
+    body {
+      background: #fdfdfd;
+    }
+
+    h1, h2 {
+      text-align: center;
+      padding: 0 0.4em;
+    }
+
+    h1 {
+      font-size: 6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h2 {
+      margin-top: 0.5em;
+      font-size: 2em;
+    }
+
+
+    p, ol, ul {
+      max-width: 750px;
+      margin: auto;
+      line-height: 1.6;
+      font-size: 1.3em;
+      padding: 1em;
+      padding-bottom: 0;
+    }
+
+    li {
+      margin-left: 2em;
+    }
+
+    section {
+      margin-bottom: 1em;
+    }
+
+
+
+    footer {
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    footer > * {
+      padding: 0.25em;
+    }
+
+    a {
+      color: #e10be3;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+
+
+    .center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+
+
+
+    .accent {
+      color: #e10be3;
+    }
+
+    .label {
+      text-decoration: underline;
+    }
+
+
+
+    @media (max-width: 612px) {
+      body {
+        font-size: 12px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <div class="hero">
+        <div>
+          <h1>
+            <div>
+              Imagine Coin
+            </div>
+          </h1>
+          <h2 class="accent">Whitepaper</h2>
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+      <h2>Summary</h2>
+      <p>
+        Imagine coin is a conceptual art piece designed to explore the relationship between arbitrary Replicated State Machine transactions and monetary value. It accomplishes this with a contract that conforms to a standard ERC-20 interface, but stores no token balances or allowances in the contract state.
+      </p>
+    </section>
+    <section><h1 class="center accent">~</h1></section>
+
+
+    <section>
+      <h2>Replicated State Machines</h2>
+      <p>
+        State Machine Replication is the key concept to understand the application layer of blockchains. While various cryptographic and network consensus mechanisms are used to determine the validity and order of transactions, smart contracts give meaning to these transactions. Given the same ordered list of events, any state machine within a network should be able to deterministically calculate its own state from scratch.</p>
+
+      <p>Consider the following set of events:</p>
+      <ol>
+        <li>Alice mints $10</li>
+        <li>Alice transfers $8 to Bob</li>
+        <li>Alice transfers $3 to Charlie</li>
+      </ol>
+
+      <p>As long as a network agrees on the rules of the state machine (along with the order of events), each node should be able to independently arrive at the same state. Of course, changing the rules would lead to a different end state. In this example transaction 3 could fail, or it could leave Alice with -$1. Depending on the rules, changing the order of transactions could have no effect on the state, or it could leave Bob with $0.</p>
+
+    </section>
+    <section><h1 class="center accent">~</h1></section>
+
+    <section>
+      <h2>Integers & Value</h2>
+
+      <p>One popular use of smart contracts on the Ethereum network is modeling ownership of fungible and non fungible tokens. While some contracts are fairly complicated, the rule set governing the actual ownership of tokens tends to be quite simple. For fungible tokens, this amounts to incrementing and decrementing integers that are assigned to addresses. </p>
+
+      <p>People tend to have strong emotional attachement to these integers. They can use these integers to make other blockchain integers go up and down, they can prominently display these integers on websites for others to see, or they can use their integers to convince large centralized institutions to increment integers in a central database. These integers can even lead to acquiring pieces of paper, which may be exchanged for real, non-digital things such as sandwiches.</p>
+
+      <p>While this system is largely decentralized and trustless, it's also largely immaterial. Integer values and physical paper might be fairly concrete, but the meaning behind them is determined entirely by the imagination of the participants. Moreover, getting from one integer to another integer to another integer to a piece of paper to a sandwich requires multiple participants in the chain to share similar ideas around abstract concepts such as <em>value</em> and <em>ownership</em>.</p>
+    </section>
+    <section><h1 class="center accent">~</h1></section>
+
+
+    <section>
+      <h2>Imagine Coin</h2>
+
+      <p>Where the existing token ecosystem relies on collective imagination to define the meaning of arbitrary values stored on the blockchain, Imagine Coin takes things one step further: it relies on collective imagination to define the rules that determine these values.</p>
+
+      <p>Imagine Coin is a smart contract that defines functions for the full ERC-20 interface, but refrains from implementing any logic for these functions. This means that the Ethereum blockchain determines the order and validity of the contract's transactions, but no logic or storage of data is performed. Users of the contract are free to determine the meaning behind these transactions. The execution of the state machine takes place in their imaginations.</p>
+
+      <p>The imaginary state machine consists of the following events, which are presented with non-binding suggestions as to what they could potentially mean.</p>
+
+      <ul>
+        <li><span class="label">Mint</span>: Increment the caller's token balance by the amount specified. Fail and revert if the transaction does not include enough Ether at the price of 0.001 ETH per token. Fail and revert if the specified amount of tokens would increase to total mint count above 1 million.</li>
+        <li><span class="label">Burn</span>: Decrement the caller's token balance by the amount specified. Fail and revert if they attempt to burn an amount greater than their current balance.</li>
+        <li><span class="label">Approve</span>: Set an allowance for spender. Fail and revert if the amount is greater than the sender's balance.</li>
+        <li><span class="label">Transfer</span>: Decrement the sender's token balance by the amount specified, and increment the recipient's token balance by the amount specified. Fail and revert if this amount is greater than the sender's balance. Fail and revert if the function caller is not the sender, or if the amount is greater than the caller's allowance. If the caller is an approved spender, decrement their allowance by the amount of the transaction.</li>
+      </ul>
+
+
+
+
+
+      <p>These events are emitted by the contract convenience, but do not interoperate with the existing ERC-20 ecosystem. </p>
+
+    </section>
+    <section><h1 class="center accent">~</h1></section>
+
+
+  </main>
+
+  <footer>
+    <div><a href="https://steviep.xyz" target="_blank">steviep</a> (c) 2021</div>
+  </footer>
+</body>
+
+</html>
