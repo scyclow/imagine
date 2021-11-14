@@ -144,7 +144,7 @@
     <section>
       <h2>Summary</h2>
       <p>
-        Imagine coin is a conceptual art piece designed to explore the relationship between arbitrary Replicated State Machine transactions and monetary value. It accomplishes this with a contract that conforms to a standard ERC-20 interface, but stores no token balances or allowances in the contract state.
+        Imagine Coin is a conceptual art piece designed to explore the relationship between arbitrary Replicated State Machine transactions and monetary value. It accomplishes this with a contract that conforms to a standard ERC-20 interface, but does not token balances or allowances in the contract state. This means that contract users are forced calculate token balances by using their imagination to interpret all Imagine Coin activity.
       </p>
     </section>
     <section><h1 class="center accent">~</h1></section>
@@ -189,7 +189,7 @@
       <p>The imaginary state machine consists of the following events, which are presented with non-binding suggestions as to what they could potentially mean.</p>
 
       <ul>
-        <li><span class="label">Mint</span>: Increment the caller's token balance by the amount specified. Fail and revert if the transaction does not include enough Ether at the price of 0.001 ETH per token. Fail and revert if the specified amount of tokens would increase to total mint count above 1 million.</li>
+        <li><span class="label">Mint</span>: Increment the caller's token balance by the amount specified. Fail and revert if the transaction does not include enough Ether at the price of 0.0001 ETH per token. Fail and revert if the specified amount of tokens would increase to total mint count above 1 million.</li>
         <li><span class="label">Burn</span>: Decrement the caller's token balance by the amount specified. Fail and revert if they attempt to burn an amount greater than their current balance.</li>
         <li><span class="label">Approve</span>: Set an allowance for spender. Fail and revert if the amount is greater than the sender's balance.</li>
         <li><span class="label">Transfer</span>: Decrement the sender's token balance by the amount specified, and increment the recipient's token balance by the amount specified. Fail and revert if this amount is greater than the sender's balance. Fail and revert if the function caller is not the sender, or if the amount is greater than the caller's allowance. If the caller is an approved spender, decrement their allowance by the amount of the transaction.</li>

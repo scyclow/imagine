@@ -260,9 +260,15 @@
 
       45% {
         left: 100%;
+        width: 100px;
+      }
+
+      45.1% {
+        width: 0;
       }
 
       100% {
+        width: 0;
         left: 100%;
       }
     }
@@ -327,7 +333,7 @@
         <dt>Max Tokens</dt>
         <dd>1,000,000</dd>
         <dt>Price Per Token</dt>
-        <dd>0.001 ETH</dd>
+        <dd>0.0001 ETH</dd>
         <dt>Contract</dt>
         <dd><a id="contractAddress" href="" target="_blank" rel="nofollow">-</a></dd>
       </dl>
@@ -526,10 +532,10 @@
 
   $mintToken.onclick = async () => {
     displayError('')
-    const mintPrice = '0.001'
+    const mintPrice = '0.0001'
     const rawTokensToMint = Number($tokensToMint.value)
     let tokensToMint, txValue
-    if (rawTokensToMint < 0.001) {
+    if (rawTokensToMint < 0.0001) {
       tokensToMint = String(rawTokensToMint * 10**18)
       txValue = String(tokensToMint * Number(mintPrice))
     } else {

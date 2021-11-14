@@ -97,21 +97,20 @@ interface IERC20 {
 
 contract ImagineCoin is IERC20 {
   mapping(address => uint256) private _balances;
-
   mapping(address => mapping(address => uint256)) private _allowances;
 
-  uint256 private _totalSupply;
   string private _name;
   string private _symbol;
+  uint256 private _totalSupply;
 
-  address public treasurer;
   address public owner;
+  address public treasurer;
 
-  uint256 constant public pricePerTokenInWei = 1000000000000000;
+  uint256 constant public pricePerTokenInWei = 100000000000000;
   uint256 constant public maxTokens = 1000000000000000000000000;
 
-  event ImagineMint(uint256 amount);
-  event ImagineBurn(uint256 amount);
+  event ImagineMint(address indexed owner, uint256 amount, uint256 transactionValue);
+  event ImagineBurn(address indexed owner, uint256 amount);
   event ImagineTransfer(address indexed from, address indexed to, uint256 value);
   event ImagineApprove(address indexed owner, address indexed spender, uint256 value);
 
@@ -122,6 +121,8 @@ contract ImagineCoin is IERC20 {
     treasurer = msg.sender;
     owner = msg.sender;
   }
+
+  // Getters
 
   function name() public view virtual returns (string memory) {
     return _name;
@@ -139,6 +140,7 @@ contract ImagineCoin is IERC20 {
     return _totalSupply;
   }
 
+  // balanceOf and allowance should be ignored
   function balanceOf(address account) public view virtual override returns (uint256) {
     return _balances[account];
   }
@@ -147,14 +149,16 @@ contract ImagineCoin is IERC20 {
     return _allowances[owner][spender];
   }
 
+  // Contract events
+
   function mint(uint256 amount) public payable returns (bool) {
-    emit ImagineMint(amount);
+    emit ImagineMint(msg.sender, amount, msg.value);
     payable(treasurer).transfer(msg.value);
     return true;
   }
 
   function burn(uint256 amount) public returns (bool) {
-    emit ImagineBurn(amount);
+    emit ImagineBurn(msg.sender, amount);
     return true;
   }
 
@@ -177,7 +181,7 @@ contract ImagineCoin is IERC20 {
     return true;
   }
 
-
+  // Administrative Functions
 
   function transferOwnership(address newOwner) external {
     require(msg.sender == owner, "Only owner can transfer ownership");
@@ -189,23 +193,4 @@ contract ImagineCoin is IERC20 {
     treasurer = newTreasurer;
   }
 
-
-
-
-
-  // function _transfer(
-  //   address sender,
-  //   address recipient,
-  //   uint256 amount
-  // ) internal virtual {
-  //   emit Transfer(sender, recipient, amount);
-  // }
-
-  // function _approve(
-  //   address owner,
-  //   address spender,
-  //   uint256 amount
-  // ) internal virtual {
-  //   emit Approval(owner, spender, amount);
-  // }
 }

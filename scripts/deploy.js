@@ -1,7 +1,7 @@
 
 
 async function main(contractType) {
-  const mintPrice = '0.001'
+  const mintPrice = '0.0001'
 
   // dev1, dev2, dev3
   const [dev1, dev2, dev3, _] = await ethers.getSigners();
