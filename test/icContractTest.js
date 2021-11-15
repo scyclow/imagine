@@ -43,6 +43,11 @@ describe('ImagineCoin', () => {
     await ImagineCoinContract.connect(tokenHolder1).approve(tokenHolder3.address, ethers.utils.parseEther('1'))
     await ImagineCoinContract.connect(tokenHolder3).transferFrom(tokenHolder1.address, tokenHolder2.address, ethers.utils.parseEther('1'))
 
+    expectFailure(
+      () => ImagineCoinContract.connect(tokenHolder3).transferOwnership(tokenHolder3.address),
+      'Only owner'
+    )
+
 
     const filter = ImagineCoinContract.filters.ImagineTransfer()
 
@@ -51,7 +56,6 @@ describe('ImagineCoin', () => {
       topics: []
     })
 
-    console.log(transferEvents)
     const topics = transferEvents.topics
 
 
