@@ -317,6 +317,7 @@
     <section>
       <h2><a href="./whitepaper" target="_blank">Read the Whitepaper</a></h2>
       <h2><a href="./stateMachine" target="_blank">View the Explorer</a></h2>
+      <h2><a href="./tx" target="_blank">Visit the TX Console</a></h2>
     </section>
     <section><h1 class="center accent">~</h1></section>
 
@@ -572,6 +573,9 @@
       }, 3000)
     } catch (e) {
       setLoading(false)
+      const message = e.message.includes('Please enable Blind signing or Contract data in the Ethereum app Settings')
+        ? e.message += ' -- If you are using a Ledger device, you may need to open "Settings" and enable "Debug data", as well as "Blind signing"'
+        : e.message
       displayError(e.message)
     }
   }

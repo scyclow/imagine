@@ -56,6 +56,10 @@
       margin-top: 0.5em;
     }
 
+    header {
+      margin: 4em 0;
+    }
+
 
     p, ol, ul, .tableSection {
       max-width: 750px;
@@ -159,6 +163,12 @@
       margin-left: 1em;
     }
 
+    .eventFailed {
+      text-decoration: line-through;
+      opacity: 0.3;
+      color: #e10be3;
+    }
+
 
     @media (max-width: 750px) {
       body {
@@ -174,7 +184,7 @@
       <h2>Imagine Coin Explorer</h2>
       <h3>Imagine Coins minted: <span id="imagineCoinsMinted" class="accent">-</span></h3>
       <h3>Imagine Coins burnt: <span id="imagineCoinsBurnt" class="accent">-</span></h3>
-      <p>All balances approximated using a reference implementation inspired by the discussion in the <a href="./whitepaper">whitepaper</a>.</p>
+      <p>All balances approximated using a reference implementation inspired by the discussion in the <a href="./whitepaper">whitepaper</a>. If you'd like to submit a transaction, visit the <a href="./tx">transaction console</a>.</p>
     </section>
   </header>
 
@@ -321,7 +331,7 @@
 
         case 'ImagineMint':
           eventHtml += `
-            <div class="eventRow"">
+            <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
               <dt class="accent">${event.event}</dt>
               <dd>Caller: ${args[0]}</dd>
               <dd>Amount: ${fmt(args[1])}</dd>
@@ -333,7 +343,7 @@
 
         case 'ImagineBurn':
           eventHtml += `
-            <div class="eventRow"">
+            <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
               <dt class="accent">${event.event}</dt>
               <dd>Caller: ${args[0]}</dd>
               <dd>Amount: ${fmt(args[1])}</dd>
@@ -344,7 +354,7 @@
 
         case 'ImagineTransfer':
           eventHtml += `
-            <div class="eventRow"">
+            <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
               <dt class="accent">${event.event}</dt>
               <dd>Caller: ${args[0]}</dd>
               <dd>From: ${args[1]}</dd>
@@ -357,7 +367,7 @@
 
         case 'ImagineApprove':
           eventHtml += `
-            <div class="eventRow"">
+            <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
               <dt class="accent">${event.event}</dt>
               <dd>Caller: ${args[0]}</dd>
               <dd>Spender: ${args[1]}</dd>
@@ -384,7 +394,7 @@
 
   function displayError(msg) {
     $contractError.style.display = null
-    $errorMessage.innerHTML = msg
+    $contractError.innerHTML = msg
   }
 
   function setLoading(bool) {
@@ -419,17 +429,25 @@
       this.events = events
       events.forEach(e => {
         switch (e.event) {
-          case 'ImagineMint': return this.mint(...e.args)
-          case 'ImagineBurn': return this.burn(...e.args)
-          case 'ImagineTransfer': return this.transfer(...e.args)
-          case 'ImagineApprove': return this.approve(...e.args)
+          case 'ImagineMint':
+            try { this.mint(...e.args) } catch (_) { e.failed = true }
+            break
+          case 'ImagineBurn':
+            try { this.burn(...e.args) } catch (_) { e.failed = true }
+            break
+          case 'ImagineTransfer':
+            try { this.transfer(...e.args) } catch (_) { e.failed = true }
+            break
+          case 'ImagineApprove':
+            try { this.approve(...e.args) } catch (_) { e.failed = true }
+            break
         }
       })
     }
 
     mint(caller, amount, txValue) {
-      if (amount.mul(this.mintPrice).lt(txValue)) return
-      if (amount.add(this.tokensMinted).gt(this.maxTokens)) return
+      if (amount.mul(this.mintPrice).lt(txValue)) throw new Error('failure')
+      if (amount.add(this.tokensMinted).gt(this.maxTokens)) throw new Error('failure')
 
       this.tokensMinted = this.tokensMinted.add(amount)
 
@@ -441,7 +459,7 @@
     }
 
     burn(caller, amount) {
-      if ((this.balances[caller]||ethers.utils.parseEther('0')).lt(amount)) return
+      if ((this.balances[caller]||ethers.utils.parseEther('0')).lt(amount)) throw new Error('failure')
       this.balances[caller] = this.balances[caller].sub(amount)
       this.tokensBurnt = this.tokensBurnt.add(amount)
     }
@@ -450,12 +468,12 @@
       if (
         !(
           caller === from ||
-          (this.allowances?.[from]?.[caller] || ethers.utils.parseEther('0')).lte(value)
+          (this.allowances?.[from]?.[caller] || ethers.utils.parseEther('0')).gte(value)
         )
       ) {
-        return
+        throw new Error('failure')
       }
-      if ((this.balances[from]||ethers.utils.parseEther('0')).lt(value)) return
+      if ((this.balances[from]||ethers.utils.parseEther('0')).lt(value)) throw new Error('failure')
 
       this.balances[from] = this.balances[from].sub(value)
 
@@ -466,12 +484,16 @@
       }
 
       if (caller !== from) {
-        this.approve(from, caller, this.allowances[from][caller].sub(value))
+        this.approve(
+          from,
+          caller,
+          this.allowances[from][caller].sub(value)
+        )
       }
     }
 
     approve(caller, spender, value) {
-      if ((this.balances[caller]||ethers.utils.parseEther('0')).lt(value)) return
+      if ((this.balances[caller]||ethers.utils.parseEther('0')).lt(value)) throw new Error('failure')
 
       this.allowances[caller] = {
         [spender]: value

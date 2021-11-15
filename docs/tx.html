@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Imagine Coin</title>
+
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="HandheldFriendly" content="true">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta id="header-theme" name="theme-color" content="#ffffff">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Poiret+One&family=Roboto+Slab:wght@200&display=swap" rel="stylesheet">
+
+
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+      color: #3c3c3c;
+      font-family: 'Poiret One', sans-serif;
+    }
+
+    p, label, label span, li , li span {
+      font-family: 'Roboto Slab', serif;
+    }
+
+    main {
+      margin-bottom: 5em;
+    }
+
+    body {
+      background: #fdfdfd;
+    }
+
+    h1, h2, header h3 {
+      text-align: center;
+      padding: 0 0.4em;
+    }
+
+    h1 {
+      font-size: 6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h2 {
+      margin-top: 0.5em;
+      font-size: 2em;
+    }
+
+    header {
+      margin: 4em 0;
+    }
+
+
+    p, ol, ul, .tableSection {
+      max-width: 750px;
+      margin: auto;
+      line-height: 1.6;
+      font-size: 1.3em;
+      padding: 1em;
+      padding-bottom: 0;
+    }
+
+    .tableSection h3 {
+      text-decoration: underline;
+    }
+
+    li {
+      margin-left: 2em;
+    }
+
+    section {
+      /*margin-bottom: 3em;*/
+    }
+
+
+
+    footer {
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    footer > * {
+      padding: 0.25em;
+    }
+
+    a {
+      color: #e10be3;
+    }
+
+
+    input {
+      text-align: center;
+      padding: 0.5em; border: 1px solid #e10be3;
+      font-size: 1.1em;
+      border-radius: 2px;
+      width: 100px;
+      color: #e10be3;
+      background: #f4fffd;
+    }
+
+    input[type=number] {
+
+      -moz-appearance: textfield;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+
+
+
+    .center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+
+
+
+    .accent {
+      color: #e10be3;
+    }
+
+    .label {
+      text-decoration: underline;
+    }
+
+    dl {
+      padding-left: 1em;
+    }
+    dt, dd {
+      display: inline-block;
+      padding-right: 1em;
+      font-family: 'Cutive Mono', monospace;
+    }
+
+    dt {
+      width: 27em;
+    }
+
+    button {
+      border: 2px solid #e10be3;
+      border-radius: 10px;
+      cursor: pointer;
+      padding: 0.6em 0.75em;
+      transition: 300ms;
+      font-size: 1.5em;
+      color: #fefefe;
+      background-color: #e10be3;
+    }
+
+    button:hover {
+      opacity: 0.5;
+    }
+    #sampleCode {
+      font-family: monospace !important;
+      background-color: #e3e9e8;
+      max-width: 750px;
+      margin: 1em auto;
+      padding: 1em;
+    }
+
+
+    .inputLabel {
+      margin-top: 1em;
+      margin-bottom: 0.5em;
+      font-size: 1.2em;
+    }
+
+
+    .txForm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+      padding: 1em;
+      max-width: 550px;
+    }
+
+    .formButton {
+      margin: 1em 0;
+    }
+
+    @media (max-width: 750px) {
+      body {
+        font-size: 12px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <section>
+      <h2>Imagine Coin Transaction Console</h2>
+    </section>
+  </header>
+
+  <section>
+    <h2>Transfer</h2>
+    <div class="txForm">
+      <label class="inputLabel">TO</label>
+      <input id="transferTo" type="text" placeholder="0x59e71de66744d1a176d0154b712161562DD03C35" style="width: 25em">
+
+      <label class="inputLabel">AMOUNT</label>
+      <input id="transferAmount" type="number" placeholder="0.1" >
+
+      <button id="transferSubmit" class="formButton">Submit</button>
+
+      <h2 id="transferText"></h2>
+    </div>
+  </section>
+  <section><h1 class="center accent">~</h1></section>
+
+  <section>
+    <h2>Approve</h2>
+    <div class="txForm">
+
+      <label class="inputLabel">SPENDER</label>
+      <input id="approveSpender" type="text" placeholder="0x59e71de66744d1a176d0154b712161562DD03C35" style="width: 25em">
+
+      <label class="inputLabel">AMOUNT</label>
+      <input id="approveAmount" type="number" placeholder="0.1" >
+
+      <button id="approveSubmit" class="formButton">Submit</button>
+      <h2 id="approveText"></h2>
+
+    </div>
+  </section>
+  <section><h1 class="center accent">~</h1></section>
+
+  <section>
+    <h2>Transfer From</h2>
+    <div class="txForm">
+
+      <label class="inputLabel">FROM</label>
+      <input id="transferFromFrom" type="text" placeholder="0x59e71de66744d1a176d0154b712161562DD03C35" style="width: 25em">
+
+      <label class="inputLabel">TO</label>
+      <input id="transferFromTo" type="text" placeholder="0x59e71de66744d1a176d0154b712161562DD03C35" style="width: 25em">
+
+      <label class="inputLabel">AMOUNT</label>
+      <input id="transferFromAmount" type="number" placeholder="0.1" >
+
+      <button id="transferFromSubmit" class="formButton">Submit</button>
+      <h2 id="transferFromText"></h2>
+
+    </div>
+  </section>
+  <section><h1 class="center accent">~</h1></section>
+
+  <section>
+    <h2>Burn</h2>
+    <div class="txForm">
+      <label class="inputLabel">AMOUNT</label>
+      <input id="burnAmount" type="number" placeholder="0.1" >
+
+      <button id="burnSubmit" class="formButton">Submit</button>
+      <h2 id="burnText"></h2>
+
+    </div>
+  </section>
+  <section><h1 class="center accent">~</h1></section>
+
+  <footer>
+    <div><a href="https://twitter.com/steviepxyz" target="_blank" rel="nofollow">twitter</a></div>
+    <div><a href="https://discord.gg/9uA8WBFpcB" target="_blank" rel="nofollow">discord</a></div>
+    <div><a href="https://steviep.xyz" target="_blank">steviep</a> (c) 2021</div>
+  </footer>
+
+
+</body>
+
+<script src="./min.ethers.js"></script>
+<script type="text/javascript">
+  const LOCAL_HOST_CONTRACT_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
+  const RINKEBY_CONTRACT_ADDR = '0x59e71de66744d1a176d0154b712161562DD03C35'
+  const MAINNET_CONTRACT_ADDR = ''
+
+  const $transferTo = document.getElementById('transferTo')
+  const $transferAmount = document.getElementById('transferAmount')
+  const $transferSubmit = document.getElementById('transferSubmit')
+  const $transferText = document.getElementById('transferText')
+
+  const $approveSpender = document.getElementById('approveSpender')
+  const $approveAmount = document.getElementById('approveAmount')
+  const $approveSubmit = document.getElementById('approveSubmit')
+  const $approveText = document.getElementById('approveText')
+
+  const $transferFromFrom = document.getElementById('transferFromFrom')
+  const $transferFromTo = document.getElementById('transferFromTo')
+  const $transferFromAmount = document.getElementById('transferFromAmount')
+  const $transferFromSubmit = document.getElementById('transferFromSubmit')
+  const $transferFromText = document.getElementById('transferFromText')
+
+  const $burnAmount = document.getElementById('burnAmount')
+  const $burnSubmit = document.getElementById('burnSubmit')
+  const $burnText = document.getElementById('burnText')
+
+
+  ;(async () => {
+
+  const imagineCoinABI = [
+    'function transfer(address recipient, uint256 amount) public returns (bool)',
+    'function approve(address spender, uint256 amount) public returns (bool)',
+    'function transferFrom(address sender, address recipient, uint256 amount) public returns (bool)',
+    'function burn(uint256 amount) public returns (bool)',
+  ]
+  let isEthBrowser
+
+  if (window.ethereum) {
+    console.log('web3')
+    window.provider = new ethers.providers.Web3Provider(window.ethereum, 'any')
+    window.signer = provider.getSigner()
+    isEthBrowser = true
+  } else {
+    alert('Please visit this page in a web3 compatible browser')
+    return
+  }
+  const isConnected = async () => {
+    if (!isEthBrowser) return false
+
+    try {
+      return await signer.getAddress()
+    } catch (e) {
+      return false
+    }
+  }
+
+
+  const { chainId } = await provider.detectNetwork()
+
+  let IC_ADDRESS
+  switch (chainId) {
+    // local network
+    case 31337:
+      console.log(`Running on local network (${chainId})`)
+      IC_ADDRESS = LOCAL_HOST_CONTRACT_ADDR
+      break
+
+    // rinkeby
+    case 4:
+      console.log(`Running on rinkeby (${chainId})`)
+      IC_ADDRESS = RINKEBY_CONTRACT_ADDR
+      break
+
+    // mainnet
+    case 1:
+      console.log(`Running on mainnet (${chainId})`)
+      IC_ADDRESS = MAINNET_CONTRACT_ADDR
+      break
+  }
+
+
+
+  const ImagineCoinContract = new ethers.Contract(IC_ADDRESS, imagineCoinABI, provider)
+
+
+
+  let connectedWallet = await isConnected()
+  if (connectedWallet) {
+    console.log(`Wallet connected: ${connectedWallet}`)
+  } else {
+    window.ethereum.request({ method: 'eth_requestAccounts' }, []);
+    connectedWallet = await isConnected()
+  }
+
+
+
+
+
+  $transferSubmit.onclick = async () => {
+    $transferText.innerHTML = 'Loading...'
+
+    const transferTo = $transferTo.value
+    const transferAmount = ethers.utils.parseEther($transferAmount.value)
+
+    if (!transferTo || transferAmount.lte(ethers.utils.parseEther('0'))) {
+      $transferText.innerHTML = `Please recheck your values`
+    }
+
+    try {
+      const tx = await ImagineCoinContract.connect(signer).transfer(transferTo, transferAmount)
+      setTimeout(() =>
+        $transferText.innerHTML = `<a href="https://etherscan.io/tx/${tx.hash}">View tx on etherscan</a>`,
+        300
+      )
+    } catch (e) {
+      console.error(e)
+      $transferText.innerHTML = e.message
+    }
+  }
+
+
+  $approveSubmit.onclick = async () => {
+    $approveText.innerHTML = 'Loading...'
+
+    const approveSpender = $approveSpender.value
+    const approveAmount = ethers.utils.parseEther($approveAmount.value)
+
+
+    if (!approveSpender || approveAmount.lte(ethers.utils.parseEther('0'))) {
+      $approveText.innerHTML = `Please recheck your values`
+    }
+
+    try {
+      const tx = await ImagineCoinContract.connect(signer).approve(approveSpender, approveAmount)
+      setTimeout(() =>
+        $approveText.innerHTML = `<a href="https://etherscan.io/tx/${tx.hash}">View tx on etherscan</a>`,
+        300
+      )
+    } catch (e) {
+      console.error(e)
+      $approveText.innerHTML = e.message
+    }
+  }
+
+
+  $transferFromSubmit.onclick = async () => {
+    $transferFromText.innerHTML = 'Loading...'
+
+    const transferFromFrom = $transferFromFrom.value
+    const transferFromTo = $transferFromTo.value
+    const transferFromAmount = ethers.utils.parseEther($transferFromAmount.value)
+
+    if (!transferFromFrom || !transferFromTo || transferFromAmount.lte(ethers.utils.parseEther('0'))) {
+      $transferFromText.innerHTML = `Please recheck your values`
+    }
+
+    try {
+      const tx = await ImagineCoinContract.connect(signer).transferFrom(transferFromFrom, transferFromTo, transferFromAmount)
+      setTimeout(() =>
+        $transferFromText.innerHTML = `<a href="https://etherscan.io/tx/${tx.hash}">View tx on etherscan</a>`,
+        300
+      )
+    } catch (e) {
+      console.error(e)
+      $transferFromText.innerHTML = e.message
+    }
+  }
+
+
+  $burnSubmit.onclick = async () => {
+    $burnText.innerHTML = 'Loading...'
+
+    const burnAmount = ethers.utils.parseEther($burnAmount.value)
+
+    if (burnAmount.lte(ethers.utils.parseEther('0'))) {
+      $burnText.innerHTML = `Please recheck your values`
+    }
+
+    try {
+      console.log(burnAmount)
+      const tx = await ImagineCoinContract.connect(signer).burn(burnAmount)
+      setTimeout(() =>
+        $burnText.innerHTML = `<a href="https://etherscan.io/tx/${tx.hash}">View tx on etherscan</a>`,
+        300
+      )
+    } catch (e) {
+      console.error(e)
+      $burnText.innerHTML = e.message
+    }
+  }
+
+
+
+
+
+
+
+  })()
+
+
+
+
+</script>
+</html>
