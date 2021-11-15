@@ -104,21 +104,21 @@ contract ImagineCoin is IERC20 {
   uint256 private _totalSupply;
 
   address public owner;
-  address public treasurer;
 
   uint256 constant public pricePerTokenInWei = 100000000000000;
   uint256 constant public maxTokens = 1000000000000000000000000;
 
-  event ImagineMint(address indexed owner, uint256 amount, uint256 transactionValue);
-  event ImagineBurn(address indexed owner, uint256 amount);
-  event ImagineTransfer(address indexed from, address indexed to, uint256 value);
-  event ImagineApprove(address indexed owner, address indexed spender, uint256 value);
+  event ImagineMint(address indexed caller, uint256 amount, uint256 transactionValue);
+  event ImagineBurn(address indexed caller, uint256 amount);
+  event ImagineTransfer(address indexed caller, address indexed from, address indexed to, uint256 value);
+  event ImagineApprove(address indexed caller, address indexed spender, uint256 value);
+
+  event ProjectEvent(address indexed poster, string indexed eventType, string content);
 
   constructor() {
     _name = 'ImagineCoin';
     _symbol = 'IMG';
 
-    treasurer = msg.sender;
     owner = msg.sender;
   }
 
@@ -153,7 +153,7 @@ contract ImagineCoin is IERC20 {
 
   function mint(uint256 amount) public payable returns (bool) {
     emit ImagineMint(msg.sender, amount, msg.value);
-    payable(treasurer).transfer(msg.value);
+    payable(owner).transfer(msg.value);
     return true;
   }
 
@@ -163,7 +163,7 @@ contract ImagineCoin is IERC20 {
   }
 
   function transfer(address recipient, uint256 amount) public virtual override returns (bool) {
-    emit ImagineTransfer(msg.sender, recipient, amount);
+    emit ImagineTransfer(msg.sender, msg.sender, recipient, amount);
     return true;
   }
 
@@ -177,7 +177,7 @@ contract ImagineCoin is IERC20 {
     address recipient,
     uint256 amount
   ) public virtual override returns (bool) {
-    emit ImagineTransfer(sender, recipient, amount);
+    emit ImagineTransfer(msg.sender, sender, recipient, amount);
     return true;
   }
 
@@ -188,9 +188,9 @@ contract ImagineCoin is IERC20 {
     owner = newOwner;
   }
 
-  function transferTreasurership(address newTreasurer) external {
-    require(msg.sender == treasurer, "Only treasurer can transfer treasurership");
-    treasurer = newTreasurer;
+  function emitProjectEvent(string memory _eventType, string memory _content) public {
+    require(msg.sender == owner, "Only owner can emit project events");
+    emit ProjectEvent(msg.sender, _eventType, _content);
   }
 
 }

@@ -73,7 +73,7 @@
       border: 2px solid #e10be3;
       border-radius: 10px;
       cursor: pointer;
-      padding: 0.75em;
+      padding: 0.6em 0.75em;
       transition: 300ms;
       font-size: 2em;
       color: #fefefe;
@@ -258,11 +258,11 @@
         left: -100%;
       }
 
-      15% {
+      10% {
         left: -100%;
       }
 
-      75% {
+      70% {
         left: 100%;
       }
 
@@ -316,6 +316,7 @@
 
     <section>
       <h2><a href="./whitepaper" target="_blank">Read the Whitepaper</a></h2>
+      <h2><a href="./stateMachine" target="_blank">View the Explorer</a></h2>
     </section>
     <section><h1 class="center accent">~</h1></section>
 
@@ -400,22 +401,25 @@
   const $successText = document.getElementById('successText')
 
 
-  const LOCAL_HOST_CONTRACT_ADDR = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9'
-  const RINKEBY_CONTRACT_ADDR = ''
+  const LOCAL_HOST_CONTRACT_ADDR = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
+  const RINKEBY_CONTRACT_ADDR = '0x60204Fdce37060Cd9cc314A6DE320EBB5d209d62'
   const MAINNET_CONTRACT_ADDR = ''
 
 
-  confirmRead.onclick = (event) =>
-    $purchaseForm.className = event.target.checked
-      ? 'purchaseActive'
-      : 'purchaseInactive'
+  confirmRead.onclick = (event) => {
+    if (event.target.checked) {
+      $purchaseForm.className = 'purchaseActive'
+      $tokensToMint.focus()
+    } else {
+      $purchaseForm.className = 'purchaseInactive'
+      $tokensToMint.blur()
+    }
+  }
 
   ;(async () => {
 
   const imagineCoinABI = [
-
     'function mint(uint256 amount) public payable',
-
   ]
   let isEthBrowser
 
@@ -472,6 +476,7 @@
   setUIContractAddress(IC_ADDRESS)
 
   const ImagineCoinContract = new ethers.Contract(IC_ADDRESS, imagineCoinABI, provider)
+
 
   const connectedWallet = await isConnected()
   if (connectedWallet) {

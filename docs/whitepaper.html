@@ -12,7 +12,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Roboto+Slab:wght@200&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Poiret+One&family=Roboto+Slab:wght@200&display=swap" rel="stylesheet">
 
 
   <style type="text/css">
@@ -115,6 +115,14 @@
       text-decoration: underline;
     }
 
+    #sampleCode {
+      font-family: 'Cutive Mono', monospace;
+      background-color: #e3e9e8;
+      max-width: 750px;
+      margin: 1em auto;
+      padding: 1em;
+    }
+
 
 
     @media (max-width: 612px) {
@@ -146,6 +154,9 @@
       <p>
         Imagine Coin is a conceptual art piece designed to explore the relationship between arbitrary Replicated State Machine transactions and monetary value. It accomplishes this with a contract that conforms to a standard ERC-20 interface, but does not token balances or allowances in the contract state. This means that contract users are forced calculate token balances by using their imagination to interpret all Imagine Coin activity.
       </p>
+
+      <p>For an example of what an off-chain state machine might look like, see the example code at the bottom of this page, as well as the <a href="./stateMachine">Imagine Coin Explorer</a>.</p>
+
     </section>
     <section><h1 class="center accent">~</h1></section>
 
@@ -195,21 +206,146 @@
         <li><span class="label">Transfer</span>: Decrement the sender's token balance by the amount specified, and increment the recipient's token balance by the amount specified. Fail and revert if this amount is greater than the sender's balance. Fail and revert if the function caller is not the sender, or if the amount is greater than the caller's allowance. If the caller is an approved spender, decrement their allowance by the amount of the transaction.</li>
       </ul>
 
-
-
-
-
       <p>These events are emitted by the contract convenience, but do not interoperate with the existing ERC-20 ecosystem. </p>
 
     </section>
     <section><h1 class="center accent">~</h1></section>
 
+    <section>
+      <h2>Example Code</h2>
+      <pre id="sampleCode"> </pre>
+    </section>
+    <section><h1 class="center accent">~</h1></section>
+
+    <section>
+      <h2><a href="./">Home</a></h2>
+
+    </section>
+
 
   </main>
 
   <footer>
+    <div><a href="https://twitter.com/steviepxyz" target="_blank" rel="nofollow">twitter</a></div>
+    <div><a href="https://discord.gg/9uA8WBFpcB" target="_blank" rel="nofollow">discord</a></div>
     <div><a href="https://steviep.xyz" target="_blank">steviep</a> (c) 2021</div>
   </footer>
 </body>
+
+<script type="text/javascript">
+  document.getElementById('sampleCode').innerHTML = `
+type ImagineMintEvent = {
+  event: 'ImagineMint',
+  args: []
+}
+
+type ImagineBurnEvent = {
+  event: 'ImagineBurn',
+  args: []
+}
+
+type ImagineTransferEvent = {
+  event: 'ImagineTransfer',
+  args: []
+}
+
+type ImagineApproveEvent = {
+  event: 'ImagineApprove',
+  args: []
+}
+
+type Event =
+  | ImagineMintEvent
+  | ImagineBurnEvent
+  | ImagineTransferEvent
+  | ImagineApproveEvent
+
+type Address = string
+
+type Balances = { [owner: Address]: number }
+type Allowances = { [owner: Address]: { [spender: Address]: number } }
+
+class StateMachine {
+  // These numbers are adjusted by 18 decimal places for readability
+  mintPrice = 0.0001
+  maxTokens = 1000000
+  tokensMinted = 0
+  tokensBurnt = 0
+
+  events: Array<Event> = []
+  balances: Balances = {}
+  allowances: Allowances = {}
+
+  constructor(events: Array<Event>) {
+    this.events = events
+    events.forEach(e => {
+      switch (e.event) {
+        case 'ImagineMint': return this.mint(...e.args)
+        case 'ImagineBurn': return this.burn(...e.args)
+        case 'ImagineTransfer': return this.transfer(...e.args)
+        case 'ImagineApprove': return this.approve(...e.args)
+      }
+    })
+  }
+
+  mint(caller: string, amount: number, txValue: number) {
+    if (amount * this.mintPrice < txValue) return
+    if (amount + this.tokensMinted > this.maxTokens) return
+
+    this.tokensMinted = this.tokensMinted + amount
+
+    if (this.balances[caller]) {
+      this.balances[caller] += amount
+    } else {
+      this.balances[caller] = amount
+    }
+  }
+
+  burn(caller: string, amount: number) {
+    if ((this.balances[caller] || 0) < amount) return
+    this.balances[caller] -= amount
+    this.tokensBurnt += amount
+  }
+
+  transfer(caller: string, from: string, to: string, value: number) {
+    if (
+      !(
+        caller === from ||
+        (this.allowances?.[from]?.[caller] || 0) <= value
+      )
+    ) {
+      return
+    }
+    if ((this.balances[from] || 0) < value) return
+
+    this.balances[from] -= value
+
+    if (this.balances[to]) {
+      this.balances[to] += value
+    } else {
+      this.balances[to] = value
+    }
+
+    if (caller !== from) {
+      this.approve(from, caller, this.allowances[from][caller] - value)
+    }
+  }
+
+  approve(caller: string, spender: string, value: number) {
+    if ((this.balances[caller] || 0) < value) return
+
+    this.allowances[caller] = {
+      [spender]: value
+    }
+
+  }
+}
+  `
+  .replace(/&/g, '&amp;')
+ .replace(/</g, '&lt;')
+ .replace(/>/g, '&gt;')
+ .replace(/"/g, '&quot;')
+ .replace(/'/g, '&#039;')
+</script>
 
 </html>
