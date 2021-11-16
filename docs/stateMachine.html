@@ -147,6 +147,17 @@
       text-decoration: underline;
     }
 
+    .tableRow a {
+      font-family: 'Cutive Mono', monospace;
+      color: #3c3c3c;
+      text-decoration: none;
+    }
+
+    .tableRow a:hover {
+      text-decoration: underline;
+      color: #e10be3;
+    }
+
     dl {
       padding-left: 1em;
     }
@@ -321,6 +332,7 @@
 
 
     const stateMachine  = new StateMachine(contractEvents)
+    console.log(stateMachine)
 
     const fmt = bigNum => {
       const adjusted = bigNum.div('100000000000000')
@@ -336,7 +348,7 @@
       .sort((addr1, addr2) => fmt(stateMachine.balances[addr2]) - fmt(stateMachine.balances[addr1]))
       .forEach(addr => {
         const balance = stateMachine.balances[addr]
-        balanceHtml += `<div class="tableRow"><dt>${addr}</dt><dd class="accent">${fmt(balance)}</dd></div>`
+        balanceHtml += `<div class="tableRow"><dt><a href="https://etherscan.io/address/${addr}" target="_blank" rel="nofollow">${addr}</a></dt><dd class="accent">${fmt(balance)}</dd></div>`
       })
 
     $balancesBody.innerHTML = balanceHtml
@@ -347,13 +359,16 @@
       // if (event.event === undefined) debugger
       const args = event.args
 
+      const etherscanUrl = `<a href="https://etherscan.io/tx/${event?.transactionHash}" target="_blank" rel="nofollow">tx</a>`
+
+
       switch (event.event) {
 
 
         case 'ImagineMint':
           eventHtml += `
             <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
-              <dt class="accent">${event.event}</dt>
+              <dt class="accent">${event.event} ${etherscanUrl}</dt>
               <dd>Caller: ${args[0]}</dd>
               <dd>Amount: ${fmt(args[1])} IMG</dd>
               <dd>Transaction Value: ${fmt(args[2])} ETH</dd>
@@ -365,7 +380,7 @@
         case 'ImagineBurn':
           eventHtml += `
             <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
-              <dt class="accent">${event.event}</dt>
+              <dt class="accent">${event.event} ${etherscanUrl}</dt>
               <dd>Caller: ${args[0]}</dd>
               <dd>Amount: ${fmt(args[1])}</dd>
             </div>
@@ -376,7 +391,7 @@
         case 'ImagineTransfer':
           eventHtml += `
             <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
-              <dt class="accent">${event.event}</dt>
+              <dt class="accent">${event.event} ${etherscanUrl}</dt>
               <dd>Caller: ${args[0]}</dd>
               <dd>From: ${args[1]}</dd>
               <dd>To: ${args[2]}</dd>
@@ -389,7 +404,7 @@
         case 'ImagineApprove':
           eventHtml += `
             <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
-              <dt class="accent">${event.event}</dt>
+              <dt class="accent">${event.event} ${etherscanUrl}</dt>
               <dd>Caller: ${args[0]}</dd>
               <dd>Spender: ${args[1]}</dd>
               <dd>Value: ${fmt(args[2])}</dd>
