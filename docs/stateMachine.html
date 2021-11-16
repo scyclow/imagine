@@ -147,13 +147,13 @@
       text-decoration: underline;
     }
 
-    .tableRow a {
+    .tableRow a, dd a {
       font-family: 'Cutive Mono', monospace;
       color: #3c3c3c;
       text-decoration: none;
     }
 
-    .tableRow a:hover {
+    .tableRow a:hover, dd a:hover {
       text-decoration: underline;
       color: #e10be3;
     }
@@ -369,7 +369,7 @@
           eventHtml += `
             <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
               <dt class="accent">${event.event} ${etherscanUrl}</dt>
-              <dd>Caller: ${args[0]}</dd>
+              <dd>Caller: <a href="https://etherscan.io/address/${args[0]}" target="_blank" rel="nofollow">${args[0]}</a></dd>
               <dd>Amount: ${fmt(args[1])} IMG</dd>
               <dd>Transaction Value: ${fmt(args[2])} ETH</dd>
             </div>
@@ -381,8 +381,8 @@
           eventHtml += `
             <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
               <dt class="accent">${event.event} ${etherscanUrl}</dt>
-              <dd>Caller: ${args[0]}</dd>
-              <dd>Amount: ${fmt(args[1])}</dd>
+              <dd>Caller: <a href="https://etherscan.io/address/${args[0]}" target="_blank" rel="nofollow">${args[0]}</a></dd>
+              <dd>Amount: ${fmt(args[1])} IMG</dd>
             </div>
           `
           break
@@ -392,10 +392,10 @@
           eventHtml += `
             <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
               <dt class="accent">${event.event} ${etherscanUrl}</dt>
-              <dd>Caller: ${args[0]}</dd>
-              <dd>From: ${args[1]}</dd>
-              <dd>To: ${args[2]}</dd>
-              <dd>Value: ${fmt(args[3])}</dd>
+              <dd>Caller: <a href="https://etherscan.io/address/${args[0]}" target="_blank" rel="nofollow">${args[0]}</a></dd>
+              <dd>From: <a href="https://etherscan.io/address/${args[1]}" target="_blank" rel="nofollow">${args[1]}</a></dd>
+              <dd>To: <a href="https://etherscan.io/address/${args[2]}" target="_blank" rel="nofollow">${args[2]}</a></dd>
+              <dd>Amount: ${fmt(args[3])} IMG</dd>
             </div>
           `
           break
@@ -405,9 +405,9 @@
           eventHtml += `
             <div class="eventRow ${event.failed ? 'eventFailed' : ''}">
               <dt class="accent">${event.event} ${etherscanUrl}</dt>
-              <dd>Caller: ${args[0]}</dd>
-              <dd>Spender: ${args[1]}</dd>
-              <dd>Value: ${fmt(args[2])}</dd>
+              <dd>Caller: <a href="https://etherscan.io/address/${args[0]}" target="_blank" rel="nofollow">${args[0]}</a></dd>
+              <dd>Spender: <a href="https://etherscan.io/address/${args[1]}" target="_blank" rel="nofollow">${args[1]}</a></dd>
+              <dd>Amount: ${fmt(args[2])} IMG</dd>
             </div>
           `
           break
