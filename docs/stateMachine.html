@@ -329,10 +329,11 @@
     $imagineCoinsBurnt.innerHTML = fmt(stateMachine.tokensBurnt)
 
     let balanceHtml = ''
-    Object.keys(stateMachine.balances).forEach(addr => {
-      const balance = stateMachine.balances[addr]
-      balanceHtml += `<div class="tableRow"><dt>${addr}</dt><dd class="accent">${fmt(balance)}</dd></div>`
-    })
+    Object.keys(stateMachine.balances)
+      .forEach(addr => {
+        const balance = stateMachine.balances[addr]
+        balanceHtml += `<div class="tableRow"><dt>${addr}</dt><dd class="accent">${fmt(balance)}</dd></div>`
+      })
 
     $balancesBody.innerHTML = balanceHtml
 
@@ -461,7 +462,7 @@
     }
 
     mint(caller, amount, txValue) {
-      if (amount.mul(this.mintPrice).lt(txValue)) throw new Error('failure')
+      if (amount.mul(this.mintPrice).div('1000000000000000000').gt(txValue)) throw new Error('failure')
       if (amount.add(this.tokensMinted).gt(this.maxTokens)) throw new Error('failure')
 
       this.tokensMinted = this.tokensMinted.add(amount)
