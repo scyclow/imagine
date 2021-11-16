@@ -330,6 +330,7 @@
 
     let balanceHtml = ''
     Object.keys(stateMachine.balances)
+      .sort((addr1, addr2) => fmt(stateMachine.balances[addr2]) - fmt(stateMachine.balances[addr1]))
       .forEach(addr => {
         const balance = stateMachine.balances[addr]
         balanceHtml += `<div class="tableRow"><dt>${addr}</dt><dd class="accent">${fmt(balance)}</dd></div>`
