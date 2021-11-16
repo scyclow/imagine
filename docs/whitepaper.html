@@ -305,7 +305,7 @@ class StateMachine {
   }
 
   mint(caller: string, amount: number, txValue: number) {
-    if (amount * this.mintPrice < txValue) return
+    if (amount * this.mintPrice > txValue) return
     if (amount + this.tokensMinted > this.maxTokens) return
 
     this.tokensMinted = this.tokensMinted + amount
