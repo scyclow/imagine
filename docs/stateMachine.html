@@ -322,8 +322,11 @@
 
     const stateMachine  = new StateMachine(contractEvents)
 
-    console.log(stateMachine)
-    const fmt = bigNum => bigNum.div('100000000000000').toNumber() / 10000
+    const fmt = bigNum => {
+      const adjusted = bigNum.div('100000000000000')
+      if (adjusted.gte('10000000000')) return adjusted.div('10000').toString()
+      return adjusted.toNumber() / 10000
+    }
 
     $imagineCoinsMinted.innerHTML = fmt(stateMachine.tokensMinted)
     $imagineCoinsBurnt.innerHTML = fmt(stateMachine.tokensBurnt)
